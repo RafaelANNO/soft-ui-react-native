@@ -1,7 +1,15 @@
 import React, {useCallback, useState} from 'react';
 
+import axios from '../../axios';
+
 import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Image, Input, Product, Text} from '../components/';
+
+import Constants from 'expo-constants';
+
+const {manifest} = Constants;
+
+const uri = `http://${manifest.debuggerHost.split(':').shift()}:9000`;
 
 const Home = () => {
   const {t} = useTranslation();
@@ -22,7 +30,21 @@ const Home = () => {
     <Block>
       {/* search input */}
       <Block color={colors.card} flex={0} padding={sizes.padding}>
-        <Input search placeholder={t('common.search')} />
+        <Input
+          onChangeText={() => {
+            console.log(uri);
+            axios
+              .get('/api/test/efzfz')
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+          search
+          placeholder={t('common.search')}
+        />
       </Block>
 
       {/* toggle products list */}
